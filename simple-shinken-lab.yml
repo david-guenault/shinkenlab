@@ -22,7 +22,7 @@ receiver:
         - "7773"
 
 poller:
-    image:    dguenault/shinken-poller-testconfig:1.4
+    image:    dguenault/shinken-poller:1.4
     hostname: poller
     volumes:
         - data/shinken/etc/shinken:/etc/shinken
@@ -54,7 +54,7 @@ broker:
         - scheduler:scheduler
 
 arbiter:
-    image:    dguenault/shinken-arbiter-testconfig:1.4
+    image:    dguenault/shinken-arbiter:1.4
     hostname: arbiter
     volumes:
         - data/shinken/etc/shinken:/etc/shinken
@@ -62,7 +62,7 @@ arbiter:
         - "7770"
     links:
         - mongo:mongo
-        - poller1:poller1
+        - poller:poller
         - scheduler:scheduler
         - receiver:receiver
         - reactionner:reactionner

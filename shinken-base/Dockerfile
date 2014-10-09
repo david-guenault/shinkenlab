@@ -1,6 +1,6 @@
 # Shinken Base for building others shinken roles
 # 
-# VERSION		1.4
+# VERSION		2.0.3
 
 FROM		centos:centos6
 MAINTAINER	David GUENAULT
@@ -18,7 +18,7 @@ RUN			source $HOME/.bashrc
 # install shinken
 RUN			adduser shinken
 RUN			git clone https://github.com/naparuba/shinken.git
-RUN			cd shinken && git checkout tags/1.4.3
+RUN			cd shinken && git checkout tags/2.0.3
 RUN			cp -a ../shinken /usr/local
 RUN			chown -R shinken:shinken /usr/local/shinken
 RUN			cp -a /usr/local/shinken/bin/init.d/shinken* /etc/init.d/

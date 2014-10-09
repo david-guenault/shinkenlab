@@ -21,3 +21,18 @@ Finally install fig
   ```chmod +x /usr/local/bin/fig```
 
 
+Build the containers
+====================
+
+```./build.sh ALL```
+
+Run the infrastructure
+======================
+
+```fig -f simple-shinken-lab.yml up -d```
+
+Find the ip adresses
+====================
+
+```./allip.sh```
+

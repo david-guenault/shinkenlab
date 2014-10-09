@@ -1,0 +1,12 @@
+{
+"name":"collectd",
+
+"description":"Standard linux icolectd checks, like CPU, RAM and disk space. Checks are done by triggers on collectd data.",
+
+"path":"os/",
+
+"macros":{
+          }
+
+
+}

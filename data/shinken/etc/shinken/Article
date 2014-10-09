@@ -1,0 +1,96 @@
+Shinken lab
+
+Objectif
+
+le principal objectif n'est pas de monter une architecture de production mais simplement d'avoir la capacité de créer rapidement un poc shinken selon différents scénarios d'architecture (simple, distribué, redondé ....). Pour cela il faut dans un premier temps bien comprendre l'architecture de shinken. Ensuite nous verrons ce qu'est docker (et ce qu'il n'est pas) et nous le mettrons progressivement en oeuvre au travers d'un premier labo shinken. Enfin nous nous interesserons à quelques outils de l'écosystème docker qui vont grandement nous simplifier la vie (fig, senter et docker ui pour ne pas les citer). 
+
+Shinken
+
+Shinken est un framework de supervision gardant à l'esprit la phylosophie unix qui est un serveur = une fonction. Il ne renie pas son affiliation avec le vénérable mais maintenant très controversé nagios (Mary catch me if you can !), mais tend à s'éloigner progressivement de celui ci (tout comme les forks centreon-engine, icinga ou plus recemment naemon). Comme nous venons de le dire shinken tend a segmenter les fonctions de nagios en démons spécialisé. La ou nagios est monolityque, shinken propose une architecture éclatée en plusieurs démons. 
+
+arbiter
+
+le démon arbiter adopte généralement deux rôles. Son rôle principal est de gérer la configuration de l'infrastructure de supervision. Il va commencer par la charger, puis la découper (d'ou le nom shinken qui est un sabre japonais) et enfin l'envoyer aux différents démons constitutifs de l'infrastructure de supervision. Son deuxième rôle est de recevoir les commandes externes (commande passive dans le verbe nagios/icinga/centreon-engine/naemon). 
+
+scheduler
+
+le scheduler est l'élément central de l'infrastructure de supervision. Il est en charge de l'ordonnancement (la planification) des contrôles. Il créé et gère les queues de vérfication.
+
+broker
+
+le broker va simplement récupérer les résultat des contrôles du scheduler et les utiliser pour différentes tâches (insertion en base, présentation des données, etc ....). C'est également ce démon qui heberge l'interface web de la solution de supervision. 
+
+poller
+
+le poller est le démon en charge de l'execution des controles. En clair c'est lui qui va lancer les plugins de supervision (un check_icmp par exemple). Il tire ses ordre du scheduler et lui renvois les résultats des contrôles. 
+
+reactionner
+
+le reactionner est simplement en charge des notifications. Il n'executera donc que les commandes et plugins de notificiation. 
+
+receiver
+
+le seul rôle du receiver est de gérer une queue de commande externe. il permet de décharger l'arbiter de la reception des commandes externes en créant une queue qui sera traitée par la suite par l'arbiter.
+
+le webui
+
+le webui est tout simplement la console de supervision. Elle permet de visualiser l'état des éléments supervisés au travers de différents écrans. c'est une application web. Celle ci est embarquée en tant que module du broker. le port par défaut utilisé est le 7767. La persistance des données du dashboard est stockée dans une base mongo
+
+livestatus
+
+livestatus est une réimplémentation en python du module de courtage livestatus bien connu dans le monde nagios. il permet de rapidement récupéré les états de l'ensemble des éléments supervisés. L'accès à ces données se fait dans un pseudo langage nommé LQL (Livestatus query language). A la différence du livestatus original, celui ci est en écoute sur un port tcp (par défaut 50000). Il est utilisé comme pont entre shinken et de très nombreuses applications satellites du monde nagios (Thruk, Nagvis ...)
+
+les ports 
+
+chaque démon shinken est en écoute sur un port particulier (ainsi que certains modules des démons comme le webui sur le port 7767 et livestatus sur le port 50000). Il est important de bien comprendre comment les flux transitent entre chaque démon car nous allons faire en sorte que chaque démons soit executé dans un conteneur séparé des autres. 
+
+arbiter               7770
+scheduler          7768
+receiver             7773 
+reactionner        7769
+poller                 7771 
+broker                7772
+webui                 7767 
+livestatus           50000
+mongo                27017 
+
+l'arbiter dialogue avec l'ensemble des démons (scheduler, poller, receiver, reactionner, broker)
+le poller dialogue avec le scheduler
+le broker dialogue avec le scheduler et avec mongo (module webui)
+le reactionner dialogue avec le scheduler
+
+La problématique des logs
+
+
+
+la pile ELK elastic search  / logstash / kibana
+
+Docker
+
+Docker n'est pas une solution de virtualisation
+
+Ne stockez jamais vos données dans un conteneur applicatif mais dans un conteneur dédié (et pas sur le host non plus car cela n'est pas portable)
+
+Build
+    2 manières, manuellement ou via un Dockerfile
+
+Docker ps : listez les conteneurs actif (ou pas...)
+    docker ps -a
+Docker inspect : surveillez vos conteneurs 
+    formatage de la sortie 
+        docker inspect --format '{{ . Name }} Running : {{ .State.Running }} $(docker ps -qa)
+
+Le cercle de maintenabilité
+
+build => test => publish => run => build ....
+    |           |               |               |               |......
+    |           |               |               lancer des instances des applications
+    |           |               publier l'image sur la registry publique (ou une privée)
+    |           lancer une image en tant que conteneur et tester 
+    création d'une image
+Build once run anywhere ... 
+
+Nsenter
+
+Fig
+

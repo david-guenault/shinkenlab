@@ -71,7 +71,7 @@ then
 	#build shinken base image
 	mkdir -p $BASE/shinken-base/files
 	cp $BASE/files/supervisor/supervisord.conf $BASE/shinken-base/files/
-	cd $BASE/shinken-base && docker build -qt dguenault/shinken-base:1.4 .
+	cd $BASE/shinken-base && docker build -qt dguenault/shinken-base:2.0.3 .
 fi
 
 if [ "$SHINKENARBITER" == "BUILD" ]
@@ -79,7 +79,7 @@ then
 	#build shinken arbiter image based on shinken-base
 	mkdir -p $BASE/shinken-arbiter/files
 	cp $BASE/files/supervisor/shinken-arbiter.conf $BASE/shinken-arbiter/files/
-	cd $BASE/shinken-arbiter && docker build -qt dguenault/shinken-arbiter:1.4 .
+	cd $BASE/shinken-arbiter && docker build -qt dguenault/shinken-arbiter:2.0.3 .
 fi
 
 if [ "$SHINKENBROKER" == "BUILD" ]
@@ -87,7 +87,7 @@ then
 	#build shinken broker image based on shinken-base
 	mkdir -p $BASE/shinken-broker/files
 	cp $BASE/files/supervisor/shinken-broker.conf $BASE/shinken-broker/files/
-	cd $BASE/shinken-broker && docker build -qt dguenault/shinken-broker:1.4 .
+	cd $BASE/shinken-broker && docker build -qt dguenault/shinken-broker:2.0.3 .
 fi
 
 if [ "$SHINKENRECEIVER" == "BUILD" ]
@@ -95,7 +95,7 @@ then
 	#build shinken receiver image based on shinken-base
 	mkdir -p $BASE/shinken-receiver/files
 	cp $BASE/files/supervisor/shinken-receiver.conf $BASE/shinken-receiver/files/
-	cd $BASE/shinken-receiver && docker build -qt dguenault/shinken-receiver:1.4 .
+	cd $BASE/shinken-receiver && docker build -qt dguenault/shinken-receiver:2.0.3 .
 fi
 
 if [ "$SHINKENSCHEDULER" == "BUILD" ]
@@ -103,7 +103,7 @@ then
 	#build shinken scheduler image based on shinken-base
 	mkdir -p $BASE/shinken-scheduler/files
 	cp $BASE/files/supervisor/shinken-scheduler.conf $BASE/shinken-scheduler/files/
-	cd $BASE/shinken-scheduler && docker build -qt dguenault/shinken-scheduler:1.4 .
+	cd $BASE/shinken-scheduler && docker build -qt dguenault/shinken-scheduler:2.0.3 .
 fi
 
 if [ "$SHINKENREACTIONNER" == "BUILD" ]
@@ -111,7 +111,7 @@ then
 	#build shinken reactionner image based on shinken-base
 	mkdir -p $BASE/shinken-reactionner/files
 	cp $BASE/files/supervisor/shinken-reactionner.conf $BASE/shinken-reactionner/files/
-	cd $BASE/shinken-reactionner && docker build -qt dguenault/shinken-reactionner:1.4 .
+	cd $BASE/shinken-reactionner && docker build -qt dguenault/shinken-reactionner:2.0.3 .
 fi
 
 if [ "$SHINKENPOLLER" == "BUILD" ]
@@ -119,5 +119,5 @@ then
 	#build shinken poller image based on shinken-base
 	mkdir -p $BASE/shinken-poller/files
 	cp $BASE/files/supervisor/shinken-poller.conf $BASE/shinken-poller/files/
-	cd $BASE/shinken-poller && docker build -qt dguenault/shinken-poller:1.4 .
+	cd $BASE/shinken-poller && docker build -qt dguenault/shinken-poller:2.0.3 .
 fi

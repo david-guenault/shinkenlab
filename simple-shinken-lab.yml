@@ -13,15 +13,6 @@ scheduler:
         - data/shinken/etc/shinken:/etc/shinken
     expose:
         - "7768"
-
-scheduler2:
-    image:    dguenault/shinken-scheduler:1.4
-    hostname: scheduler2
-    volumes:
-        - data/shinken/etc/shinken:/etc/shinken
-    expose:
-        - "7768"
-
 receiver:
     image:    dguenault/shinken-receiver:1.4
     hostname: receiver
@@ -30,38 +21,15 @@ receiver:
     expose:
         - "7773"
 
-poller1:
+poller:
     image:    dguenault/shinken-poller-testconfig:1.4
-    hostname: poller1
+    hostname: poller
     volumes:
         - data/shinken/etc/shinken:/etc/shinken
     expose:
         - "7771"
     links:
         - scheduler:scheduler
-        - scheduler2:scheduler2
-
-poller2:
-    image:    dguenault/shinken-poller-testconfig:1.4
-    hostname: poller2
-    volumes:
-        - data/shinken/etc/shinken:/etc/shinken
-    expose:
-        - "7771"
-    links:
-        - scheduler:scheduler
-        - scheduler2:scheduler2
-
-poller3:
-    image:    dguenault/shinken-poller-testconfig:1.4
-    hostname: poller3
-    volumes:
-        - data/shinken/etc/shinken:/etc/shinken
-    expose:
-        - "7771"
-    links:
-        - scheduler:scheduler
-        - scheduler2:scheduler2
 
 reactionner:
     image:    dguenault/shinken-reactionner:1.4
@@ -72,7 +40,6 @@ reactionner:
         - "7779"
     links:
         - scheduler:scheduler
-        - scheduler2:scheduler2
 
 broker:
     image:    dguenault/shinken-broker:1.4
@@ -85,7 +52,6 @@ broker:
         - "7772"
     links:
         - scheduler:scheduler
-        - scheduler2:scheduler2
 
 arbiter:
     image:    dguenault/shinken-arbiter-testconfig:1.4
@@ -97,10 +63,7 @@ arbiter:
     links:
         - mongo:mongo
         - poller1:poller1
-        - poller2:poller2
-        - poller3:poller3
         - scheduler:scheduler
-        - scheduler2:scheduler2
         - receiver:receiver
         - reactionner:reactionner
         - broker:broker

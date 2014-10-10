@@ -71,6 +71,8 @@ then
 	#build shinken base image
 	mkdir -p $BASE/shinken-base/files
 	cp $BASE/files/supervisor/supervisord.conf $BASE/shinken-base/files/
+	cp $BASE/files/supervisor/sshd.conf $BASE/shinken-base/files/
+	cp -a $BASE/data/shinken/etc/shinken $BASE/shinken-base/files/
 	cd $BASE/shinken-base && docker build -qt dguenault/shinken-base:2.0.3 .
 fi
 

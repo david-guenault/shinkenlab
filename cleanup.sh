@@ -21,5 +21,7 @@ echo "cleanup files"
 bases="shinken-base shinken-poller shinken-broker shinken-arbiter shinken-scheduler shinken-receiver mongodb thruk"
 for b in $bases
 do
-	rm -f $BASE/$b/files/*
+	rm -Rf $BASE/$b/files/*
 done
+
+chown -R $USER:$USER data/shinken/etc/shinken

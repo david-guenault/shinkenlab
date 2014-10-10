@@ -7,57 +7,51 @@ mongo:
         - "27017"
 
 scheduler:
-    image:    dguenault/shinken-scheduler:1.4
+    image:    dguenault/shinken-scheduler:2.0.3
     hostname: scheduler
-    volumes:
-        - data/shinken/etc/shinken:/etc/shinken
     expose:
         - "7768"
+    links:
+        - mongo:mongo
 receiver:
-    image:    dguenault/shinken-receiver:1.4
+    image:    dguenault/shinken-receiver:2.0.3
     hostname: receiver
-    volumes:
-        - data/shinken/etc/shinken:/etc/shinken
     expose:
         - "7773"
 
 poller:
-    image:    dguenault/shinken-poller:1.4
+    image:    dguenault/shinken-poller:2.0.3
     hostname: poller
-    volumes:
-        - data/shinken/etc/shinken:/etc/shinken
     expose:
         - "7771"
     links:
         - scheduler:scheduler
 
 reactionner:
-    image:    dguenault/shinken-reactionner:1.4
+    image:    dguenault/shinken-reactionner:2.0.3
     hostname: reactionner
-    volumes:
-        - data/shinken/etc/shinken:/etc/shinken
     expose:
         - "7779"
     links:
         - scheduler:scheduler
 
 broker:
-    image:    dguenault/shinken-broker:1.4
+    image:    dguenault/shinken-broker:2.0.3
     hostname: broker
-    volumes:
-        - data/shinken/etc/shinken:/etc/shinken
     expose:
         - "7767"
         - "50000"
         - "7772"
     links:
         - scheduler:scheduler
+        - receiver:receiver
+        - poller:poller
+        - reactionner:reactionner
+        - mongo:mongo
 
 arbiter:
-    image:    dguenault/shinken-arbiter:1.4
+    image:    dguenault/shinken-arbiter:2.0.3
     hostname: arbiter
-    volumes:
-        - data/shinken/etc/shinken:/etc/shinken
     expose:
         - "7770"
     links:

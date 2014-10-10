@@ -4,3 +4,7 @@ shinken-scheduler/files/*
 shinken-poller/files/*
 shinken-reactionner/files/*
 shinken-receiver/files/*
+thruk/files/*
+mongodb/files/*
+shinken-base/files/*
+data/mongodb/*

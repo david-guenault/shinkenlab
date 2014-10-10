@@ -1,0 +1,6 @@
+shinken-arbiter/files/*
+shinken-broker/files/*
+shinken-scheduler/files/*
+shinken-poller/files/*
+shinken-reactionner/files/*
+shinken-receiver/files/*

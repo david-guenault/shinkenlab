@@ -45,6 +45,7 @@ RUN                                su - shinken -c "shinken install logstore-sql
 RUN                                su - shinken -c "shinken install logstore-mongodb"
 RUN                                su - shinken -c "shinken install livestatus"
 RUN                                su - shinken -c "shinken install pickle-retention-file-scheduler"
+RUN                                su - shinken -c "shinken install auth-cfg-password"
 
 # install supervisor
 RUN			pip install supervisor

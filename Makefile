@@ -96,3 +96,9 @@ run-simple-lab:
 
 stop-simple-lab:
 	fig -f simple-shinken-lab.yml stop
+
+go-broker:
+	sudo nsenter --mount --uts --ipc --net --pid --target $$(docker inspect --format {{.State.Pid}} shinkenlab_broker_1)
+
+go-arbiter:
+	sudo nsenter --mount --uts --ipc --net --pid --target $$(docker inspect --format {{.State.Pid}} shinkenlab_arbiter_1)

@@ -4,4 +4,4 @@ name=$1
 
 pid=$(docker inspect --format {{.State.Pid}} $1)
 
-nsenter --mount --uts --ipc --net --pid --target $pid
+nsenter --mount --uts --ipc --net --pid --target $$(docker inspect --format {{.State.Pid}} $1)

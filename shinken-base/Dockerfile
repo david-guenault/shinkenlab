@@ -43,6 +43,7 @@ RUN                                su - shinken -c "shinken install webui"
 RUN                                su - shinken -c "shinken install mod-mongodb"
 RUN                                su - shinken -c "shinken install logstore-sqlite"
 RUN                                su - shinken -c "shinken install logstore-mongodb"
+RUN                                su - shinken -c "shinken install livestatus"
 RUN                                su - shinken -c "shinken install pickle-retention-file-scheduler"
 
 # install supervisor

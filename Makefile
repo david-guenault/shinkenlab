@@ -52,7 +52,7 @@ build-shinken-base:
 	cp files/supervisor/supervisord.conf shinken-base/files/
 	cp files/supervisor/sshd.conf shinken-base/files/
 	cp -a data/shinken/etc/shinken shinken-base/files/
-	docker build -qt $(DOCKERUSER)/shinken-base:$(SHINKENVERSION) shinken-base
+	docker build -qt $(DOCKERUSER)/shinken-base:$(SHINKENVERSION) shinken-base/
 
 build-shinken-arbiter:
 	mkdir -p shinken-arbiter/files

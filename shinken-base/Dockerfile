@@ -33,28 +33,28 @@ RUN                               chown shinken:shinken /var/run/shinken /var/lo
 RUN                               chown shinken:shinken /var/run/shinken /var/log/shinken
 
 # set defaults
-ADD                                files/shinken /etc/shinken
+RUN                                mkdir -p /etc/shinken
 RUN			chown -R shinken:shinken /etc/shinken
 
-# install modules and packs
-RUN                                su - shinken -c "shinken --init"
-RUN                                su - shinken -c "shinken install linux-ssh"
-RUN                                su - shinken -c "shinken install webui"
-RUN                                su - shinken -c "shinken install mod-mongodb"
-RUN                                su - shinken -c "shinken install logstore-sqlite"
-RUN                                su - shinken -c "shinken install logstore-mongodb"
-RUN                                su - shinken -c "shinken install livestatus"
-RUN                                su - shinken -c "shinken install pickle-retention-file-scheduler"
-RUN                                su - shinken -c "shinken install auth-cfg-password"
 
 # install supervisor
-RUN			pip install supervisor
-RUN			mkdir -p /etc/supervisord.d
-RUN			mkdir -p /var/log/supervisor
+RUN         pip install supervisor
+RUN         mkdir -p /etc/supervisord.d
+RUN         mkdir -p /var/log/supervisor
 ADD                                files/supervisord.conf /etc/supervisord.conf
-ADD 		             files/sshd.conf /etc/supervisord.d/
+ADD                      files/sshd.conf /etc/supervisord.d/
 
 # launch command
+# install modules and packs
+CMD                                su - shinken -c "shinken --init"
+CMD                                su - shinken -c "shinken install linux-ssh"
+CMD                                su - shinken -c "shinken install webui"
+CMD                                su - shinken -c "shinken install mod-mongodb"
+CMD                                su - shinken -c "shinken install logstore-sqlite"
+CMD                                su - shinken -c "shinken install logstore-mongodb"
+CMD                                su - shinken -c "shinken install livestatus"
+CMD                                su - shinken -c "shinken install pickle-retention-file-scheduler"
+CMD                                su - shinken -c "shinken install auth-cfg-password"
 CMD chown -R shinken:shinken /etc/shinken
 CMD supervisord -c /etc/supervisord.conf -n
 

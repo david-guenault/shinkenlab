@@ -26,17 +26,17 @@ Finally install fig
 Build the containers
 ====================
 
-    ./build.sh ALL
+    make build
 
 Run the infrastructure
 ======================
 
-    fig -f simple-shinken-lab.yml up -d
+    make run-simple-lab
 
 Find the ip adresses
 ====================
 
-    ./allip.sh
+    make showip
 
     /shinkenlab_arbiter_1 172.17.2.114
     /shinkenlab_broker_1 172.17.2.112
